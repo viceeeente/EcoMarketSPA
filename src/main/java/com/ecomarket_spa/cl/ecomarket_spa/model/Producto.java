@@ -17,10 +17,10 @@ public class Producto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(unique = true,length = 13,nullable = false)
-    private Integer ean; //nombre del codigo unico por producto
+    private String ean; //nombre del codigo unico por producto
 
     @Column(nullable = false)
     private String nombre;
