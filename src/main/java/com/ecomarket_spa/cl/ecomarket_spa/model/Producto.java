@@ -20,7 +20,7 @@ public class Producto {
     private Integer id;
 
     @Column(unique = true,length = 13,nullable = false)
-    private String ean; //nombre del codigo unico por producto
+    private Integer ean; //nombre del codigo unico por producto
 
     @Column(nullable = false)
     private String nombre;

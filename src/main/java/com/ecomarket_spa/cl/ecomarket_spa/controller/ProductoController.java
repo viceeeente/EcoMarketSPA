@@ -4,10 +4,9 @@ import com.ecomarket_spa.cl.ecomarket_spa.model.Producto;
 import com.ecomarket_spa.cl.ecomarket_spa.service.ProductoService;
 import jakarta.websocket.server.ServerEndpoint;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,5 +24,21 @@ public class ProductoController {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.ok(productos);
+    }
+
+    @PostMapping
+    public ResponseEntity<Producto> guardar(@RequestBody Producto producto) {
+        Producto productoNuevo = productoService.save(producto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(productoNuevo);
+    }
+
+    @GetMapping("/{ean}")
+    public ResponseEntity<Producto> buscar(@PathVariable Integer ean) {
+        try{
+            Producto producto = productoService.findByEan(ean);
+            return ResponseEntity.ok(producto);
+        } catch ( Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
