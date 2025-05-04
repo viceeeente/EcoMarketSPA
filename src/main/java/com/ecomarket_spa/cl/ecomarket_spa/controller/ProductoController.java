@@ -33,7 +33,7 @@ public class ProductoController {
     }
 
     @GetMapping("/{ean}")
-    public ResponseEntity<Producto> buscar(@PathVariable Integer ean) {
+    public ResponseEntity<Producto> buscar(@PathVariable String ean) {
         try{
             Producto producto = productoService.findByEan(ean);
             return ResponseEntity.ok(producto);

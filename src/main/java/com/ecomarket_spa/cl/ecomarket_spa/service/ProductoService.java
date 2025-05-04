@@ -19,8 +19,8 @@ public class ProductoService {
         return productoRepository.findAll();
     }
 
-    public Producto findByEan(long ean) {
-        return productoRepository.findById(ean).get();
+    public Producto findByEan(String ean) {
+        return productoRepository.findByEan(ean).orElseThrow(()-> new RuntimeException("Producto no encontrado"));
     }
 
     public Producto save(Producto producto) {
