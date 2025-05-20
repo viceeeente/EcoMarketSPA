@@ -20,7 +20,7 @@ public class ProductoService {
     }
 
     public Producto findByEan(String ean) {
-        return productoRepository.findByEan(ean).orElseThrow(()-> new RuntimeException("Producto no encontrado"));
+        return productoRepository.findByEan(ean).orElse(null);
     }
 
     public Producto save(Producto producto) {

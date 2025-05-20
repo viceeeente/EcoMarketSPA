@@ -40,20 +40,20 @@ public class ProductoController {
             return ResponseEntity.notFound().build();
         }
     }
-@PutMapping("/{ean}")
-public ResponseEntity<Producto> actualizar(@PathVariable String ean, @RequestBody Producto producto) {
-    try {
-        Producto productoExistente = productoService.findByEan(ean);
-        if (productoExistente != null) {
-            producto.setId(productoExistente.getId());
-            Producto productoActualizado = productoService.save(producto);
-            return ResponseEntity.ok(productoActualizado);
+    @PutMapping("/{ean}")
+    public ResponseEntity<Producto> actualizar(@PathVariable String ean, @RequestBody Producto productoActualizado) {
+        Producto producto = productoService.findByEan(ean);
+        if (producto == null) {
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
-    } catch (Exception e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        producto.setNombre(productoActualizado.getNombre());
+        producto.setDescripcion(productoActualizado.getDescripcion());
+        producto.setPrecio(productoActualizado.getPrecio());
+        producto.setFechaVencimiento(productoActualizado.getFechaVencimiento());
+        productoService.save(producto);
+
+        return ResponseEntity.ok(producto);
     }
-}
 
 @DeleteMapping("/{ean}")
 public ResponseEntity<Void> eliminar(@PathVariable String ean) {
