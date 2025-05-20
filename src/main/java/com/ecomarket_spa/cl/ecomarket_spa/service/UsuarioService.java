@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -19,9 +20,8 @@ public class UsuarioService {
         return usuarioRepository.findAll();
     }
 
-    public Usuario findByRun(String run) {
-        return usuarioRepository.findByRun(run)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+    public Optional<Usuario> findByRun(String run) {
+        return usuarioRepository.findByRun(run);
     }
 
     public Usuario save(Usuario usuario) {
@@ -29,7 +29,7 @@ public class UsuarioService {
     }
 
     public void deleteByRun(String run) {
-        Usuario usuario = findByRun(run);
-        usuarioRepository.delete(usuario);
+        usuarioRepository.findByRun(run)
+                .ifPresent(usuarioRepository::delete);
     }
 }

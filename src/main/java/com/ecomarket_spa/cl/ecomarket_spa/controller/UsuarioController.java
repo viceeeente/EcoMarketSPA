@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/usuarios")
@@ -23,20 +24,33 @@ public class UsuarioController {
 
     @GetMapping("/{run}")
     public ResponseEntity<Usuario> obtenerPorRun(@PathVariable String run) {
-        return ResponseEntity.ok(usuarioService.findByRun(run));
+        return usuarioService.findByRun(run)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
     public ResponseEntity<Usuario> crear(@RequestBody Usuario usuario) {
         return new ResponseEntity<>(usuarioService.save(usuario), HttpStatus.CREATED);
     }
-
     @PutMapping("/{run}")
-    public ResponseEntity<Usuario> actualizar(@PathVariable String run, @RequestBody Usuario usuario) {
-        usuarioService.findByRun(run); // Verifica que exista
-        usuario.setRun(run);
-        return ResponseEntity.ok(usuarioService.save(usuario));
+    public ResponseEntity<Usuario> actualizar(@PathVariable String run, @RequestBody Usuario usuarioActualizado) {
+        Optional<Usuario> usuarioExistente = usuarioService.findByRun(run);
+
+        if (usuarioExistente.isPresent()) {
+            Usuario usuario = usuarioExistente.get();
+
+            usuario.setNombre(usuarioActualizado.getNombre());
+            usuario.setApellido(usuarioActualizado.getApellido());
+            usuario.setCorreo(usuarioActualizado.getCorreo());
+            usuario.setPassword(usuarioActualizado.getPassword());
+
+            return ResponseEntity.ok(usuarioService.save(usuario));
+        }
+
+        return ResponseEntity.notFound().build();
     }
+
 
     @DeleteMapping("/{run}")
     public ResponseEntity<Void> eliminar(@PathVariable String run) {

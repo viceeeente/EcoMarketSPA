@@ -1,5 +1,6 @@
 package com.ecomarket_spa.cl.ecomarket_spa.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,7 +18,7 @@ public class Usuario {
     private Long id;
 
     @Column(unique = true,length = 10,nullable = false)
-    private String run; //run con el guion
+    private String run;
 
     @Column(nullable = false)
     private String nombre;
@@ -31,7 +32,6 @@ public class Usuario {
     @Column(nullable = false)
     private String password;
 
-    @ManyToOne
-    @JoinColumn(name = "rol_id", nullable = false)
-    private Rol rol;
 }
+
+

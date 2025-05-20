@@ -20,7 +20,7 @@ public class Producto {
     private Long id;
 
     @Column(unique = true,length = 13,nullable = false)
-    private String ean; //nombre del codigo unico por producto
+    private String ean;
 
     @Column(nullable = false)
     private String nombre;
@@ -35,3 +35,7 @@ public class Producto {
     private LocalDate fechaVencimiento;
 
 }
+
+
+
+
